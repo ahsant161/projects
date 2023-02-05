@@ -1,0 +1,31 @@
+Summary: Analyzed Chicago Public Schools data to gain insights into why some public schools are performing better than others. Skills utilized to complete analysis include SQL, Webscraping, working with IBM Cloud Database, comfort with big data and analytical skills to interpret data. Analysis led to a strong correlation between lower attendance/safety standards of a school to lower grades and hence lower college enrollment. 
+
+Project:
+The city of Chicago released a dataset showing all school level performance data used to create School Report Cards for the 2011-2012 school year. The dataset is available from the Chicago Data Portal: https://data.cityofchicago.org/Education/Chicago-Public-Schools-Progress-Report-Cards-2011-/9xs2-f89t
+
+Using SQL, Cloud and analytical skills, I analyzed the data to find patterns and insights. The analysis concluded that there is a strong correlation between safety standards at schools and grades. Lower safety standards lead to lower attendance which then leads to lower grades and lower college enrollment. On the other side, school districts with highest safety standards had students with higher grades and higher college enrollment.  
+
+I used queries like the following to interpret and find insights using SQL.
+
+Retrieve 5 schools with the lowest safety standards:
+
+SELECT NAME_OF_SCHOOL, AVERAGE_STUDENT_ATTENDANCE FROM CHICAGO_SCHOOLS ORDER BY AVERAGE_STUDENT_ATTENDANCE LIMIT 5
+
+Retrieve schools with lowest attendance:
+
+SELECT NAME_OF_SCHOOL, REPLACE(AVERAGE_STUDENT_ATTENDANCE, '%', ' ') AS AVERAGE_STUDENT_ATTENDANCE FROM CHICAGO_SCHOOLS WHERE REPLACE(AVERAGE_STUDENT_ATTENDANCE, '%', ' ') < 70 ORDER BY AVERAGE_STUDENT_ATTENDANCE
+
+Analyze college enrollment by communities:
+
+SELECT COMMUNITY_AREA_NAME, SUM(COLLEGE_ENROLLMENT) AS TOTAL_COLLEGE_ENNROLLMENT FROM CHICAGO_SCHOOLS \
+        GROUP BY COMMUNITY_AREA_NAME
+
+Analyze schools with lowest safety ratings and limit to 5 results:
+
+SELECT NAME_OF_SCHOOL, SAFETY_SCORE FROM CHICAGO_SCHOOLS \
+    ORDER BY SAFETY_SCORE \
+    LIMIT 5
+
+See schools with highest safety standards (Chicago rates them as having 'Gold' standard):
+
+SELECT NAME_OF_SCHOOL, SAFETY_SCORE, 'GOLD' AS "toppers" FROM CHICAGO_SCHOOLS WHERE SAFETY_SCORE = (SELECT MAX(SAFETY_SCORE) FROM CHICAGO_SCHOOLS)
